@@ -20,10 +20,12 @@ public class BoardView extends View {
     private GameEngine gameEngine;
     private MainActivity activity;
 
+    private ImageView[] icons_o;
+    private ImageView[] icons_x;
+
+
     public BoardView(Context context) {
         super(context);
-        ImageView img = (ImageView) activity.findViewById(R.id.p_o);
-        img.setVisibility(View.INVISIBLE);
     }
 
     public BoardView(Context context, @Nullable AttributeSet attrs) {
@@ -39,6 +41,29 @@ public class BoardView extends View {
 
     public void setMainActivity(MainActivity a) {
         activity = a;
+
+        // initialize array of images
+        icons_o = new ImageView[9];
+        icons_x = new ImageView[9];
+        icons_o[0] = (ImageView) activity.findViewById(R.id.p_o1);
+        icons_o[1] = (ImageView) activity.findViewById(R.id.p_o2);
+        icons_o[2] = (ImageView) activity.findViewById(R.id.p_o3);
+        icons_o[3] = (ImageView) activity.findViewById(R.id.p_o4);
+        icons_o[4] = (ImageView) activity.findViewById(R.id.p_o5);
+        icons_o[5] = (ImageView) activity.findViewById(R.id.p_o6);
+        icons_o[6] = (ImageView) activity.findViewById(R.id.p_o7);
+        icons_o[7] = (ImageView) activity.findViewById(R.id.p_o8);
+        icons_o[8] = (ImageView) activity.findViewById(R.id.p_o9);
+
+        icons_x[0] = (ImageView) activity.findViewById(R.id.p_x1);
+        icons_x[1] = (ImageView) activity.findViewById(R.id.p_x2);
+        icons_x[2] = (ImageView) activity.findViewById(R.id.p_x3);
+        icons_x[3] = (ImageView) activity.findViewById(R.id.p_x4);
+        icons_x[4] = (ImageView) activity.findViewById(R.id.p_x5);
+        icons_x[5] = (ImageView) activity.findViewById(R.id.p_x6);
+        icons_x[6] = (ImageView) activity.findViewById(R.id.p_x7);
+        icons_x[7] = (ImageView) activity.findViewById(R.id.p_x8);
+        icons_x[8] = (ImageView) activity.findViewById(R.id.p_x9);
     }
 
     public void setGameEngine(GameEngine g) {
@@ -83,11 +108,37 @@ public class BoardView extends View {
                 }
             }
         }
-
         return super.onTouchEvent(event);
     }
 
     private void drawBoard(Canvas canvas) {
+
+        // set positions and size
+        for( int x = 0; x <= 2; x++ ) {
+            for( int y = 0; y <= 2; y++ ) {
+
+                icons_o[x*3+y].getLayoutParams().height = (height - ELT_MARGIN) / 3;
+                icons_o[x*3+y].getLayoutParams().width = (width - ELT_MARGIN) / 3;
+
+                icons_x[x*3+y].getLayoutParams().height = (height - ELT_MARGIN) / 3;
+                icons_x[x*3+y].getLayoutParams().width = (width - ELT_MARGIN) / 3;
+
+                icons_o[x*3+y].setX((width/3)*x + LINE_THICK);
+                icons_o[x*3+y].setY((height/3)*y + LINE_THICK);
+
+                icons_x[x*3+y].setX((width/3)*x + LINE_THICK);
+                icons_x[x*3+y].setY((height/3)*y + LINE_THICK);
+
+            }
+        }
+        for( int x = 0; x <= 2; x++ ) {
+            for( int y = 0; y <= 2; y++ ) {
+
+                icons_o[x*3+y].setVisibility(View.INVISIBLE);
+                icons_x[x*3+y].setVisibility(View.INVISIBLE);
+            }
+        }
+
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 drawElt(canvas, gameEngine.getField(i, j), i, j);
@@ -117,41 +168,9 @@ public class BoardView extends View {
 
     private void drawElt(Canvas canvas, char c, int x, int y) {
         if (c == 'O') {
-            float cx = (eltW * x) + eltW / 2;
-            float cy = (eltH * y) + eltH / 2;
-
-            canvas.drawCircle(cx, cy, Math.min(eltW, eltH) / 2 - ELT_MARGIN * 2, oPaint);
-
-            ImageView img = (ImageView) activity.findViewById(R.id.p_o);
-            img.setVisibility(View.VISIBLE);
-
-            img.setX(cx - img.getWidth() / 2);
-            img.setY(cy - img.getHeight() / 2);
-
-
+            icons_o[x*3+y].setVisibility(View.VISIBLE);
         } else if (c == 'X') {
-            float startX = (eltW * x) + ELT_MARGIN;
-            float startY = (eltH * y) + ELT_MARGIN;
-            float endX = startX + eltW - ELT_MARGIN * 2;
-            float endY = startY + eltH - ELT_MARGIN;
-
-            canvas.drawLine(startX, startY, endX, endY, xPaint);
-
-            float startX2 = (eltW * (x + 1)) - ELT_MARGIN;
-            float startY2 = (eltH * y) + ELT_MARGIN;
-            float endX2 = startX2 - eltW + ELT_MARGIN * 2;
-            float endY2 = startY2 + eltH - ELT_MARGIN;
-
-            canvas.drawLine(startX2, startY2, endX2, endY2, xPaint);
-
-            ImageView img = (ImageView) activity.findViewById(R.id.p_x);
-            img.setVisibility(View.VISIBLE);
-
-            img.setX(startX);
-            img.setY(endY);
-
-
-
+            icons_x[x*3+y].setVisibility(View.VISIBLE);
         }
     }
 

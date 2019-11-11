@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         if( gameEngine.getCurrentPlayer() == 'O') {
             gameEngine.computer();
         }
-        ImageView img = (ImageView) findViewById(R.id.p_o);
+        ImageView img = (ImageView) findViewById(R.id.p_o1);
         img.setVisibility(img.INVISIBLE);
         boardView.invalidate();
     }

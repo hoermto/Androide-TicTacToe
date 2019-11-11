@@ -23,8 +23,7 @@ public class GameEngine {
     public GameEngine() {
         field = new char[9];
         // initial level is 0
-        level = 9;
-        level = 9;
+        level = 0;
         newGame();
     }
 
