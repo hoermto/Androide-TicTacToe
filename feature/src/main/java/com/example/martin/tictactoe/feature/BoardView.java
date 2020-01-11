@@ -129,19 +129,14 @@ public class BoardView extends View {
                 icons_x[x*3+y].setX((width/3)*x + LINE_THICK);
                 icons_x[x*3+y].setY((height/3)*y + LINE_THICK);
 
-            }
-        }
-        for( int x = 0; x <= 2; x++ ) {
-            for( int y = 0; y <= 2; y++ ) {
-
                 icons_o[x*3+y].setVisibility(View.INVISIBLE);
                 icons_x[x*3+y].setVisibility(View.INVISIBLE);
+
             }
         }
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                drawElt(canvas, gameEngine.getField(i, j), i, j);
+        for (int x = 0; x < 3; y++) {
+            for (int y = 0; y < 3; y++) {
+                drawElt(canvas, gameEngine.getField(x, y), x, y);
             }
         }
     }
